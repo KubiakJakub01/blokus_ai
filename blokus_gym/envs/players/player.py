@@ -1,6 +1,6 @@
 import copy
 import random
-
+from collections import defaultdict
 
 class Player:
     def __init__(self, index, name, all_moves, game, deterministic=False):
@@ -15,10 +15,8 @@ class Player:
         self.__set_all_labels_to_move(all_moves)
 
     def __set_all_labels_to_move(self, all_moves):
-        self.all_labels_to_move = {}
+        self.all_labels_to_move = defaultdict(list)
         for move in all_moves:
-            if move.label not in self.all_labels_to_move:
-                self.all_labels_to_move[move.label] = []
             self.all_labels_to_move[move.label].append(move)
 
         # For performance issue, we shuffle first, then we look "in order" to find the first move

@@ -7,8 +7,8 @@ import itertools
 from functools import partial
 import os
 import matplotlib.pyplot as plt
-import gym
 import cython
+import gymnasium as gym
 from blokus_gym.envs.game.blokus_game import InvalidMoveByAi
 from blokus_gym.envs.game.blokus_game import BlokusGame
 from blokus_gym.envs.game.board import Board
@@ -31,12 +31,12 @@ class BlokusEnv(gym.Env):
 
     # Customization available by base classes
     NUMBER_OF_PLAYERS = 4
-    BOARD_SIZE = 21
+    BOARD_SIZE = 20
     STATES_FILE = "states.json"
     all_shapes = get_all_shapes()
     bot_type = RandomPlayer
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         assert 2 <= self.NUMBER_OF_PLAYERS <= 4, "Between 2 and 3 players"
         print(f"Is running cython version: {cython.compiled}")
         if not cython.compiled:
@@ -86,7 +86,7 @@ class BlokusEnv(gym.Env):
         if done:
             done, reward = self.__get_done_reward()
 
-        return self.blokus_game.board.tensor, reward, done, {}
+        return self.blokus_game.board.tensor.numpy(), reward, done, done, {}
         # return self.blokus_game.board.tensor, reward, done, {'valid_actions': self.ai_possible_mask()}
 
     def __next_player_play(self):
@@ -118,9 +118,9 @@ class BlokusEnv(gym.Env):
 
         return done, reward
 
-    def reset(self):
+    def reset(self, **kwargs):
         self.init_game()
-        return self.blokus_game.board.tensor
+        return self.blokus_game.board.tensor.numpy(), {}
 
     def render(self, mode='human'):
         self.blokus_game.board.print_board(mode=mode)
