@@ -9,6 +9,13 @@ class BlokusGame:
     of rounds that have been played.
     """
 
+    def __init__(self, board, all_pieces, number_of_players=2):
+        self.players = []
+        self.rounds = 0
+        self.board = board
+        self.all_pieces = all_pieces
+        self.number_of_players = number_of_players
+
     def winners(self):
         """
         Checks the conditions of the game
@@ -51,13 +58,6 @@ class BlokusGame:
                 return False
 
         return True
-
-    def __init__(self, board, all_pieces, number_of_players=2):
-        self.players = []
-        self.rounds = 0
-        self.board = board
-        self.all_pieces = all_pieces
-        self.number_of_players = number_of_players
 
     def add_player(self, player):
         max_x = self.board.size - 1
