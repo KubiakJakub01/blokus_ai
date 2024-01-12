@@ -1,4 +1,7 @@
 import os
+import sys
+import subprocess
+subprocess.check_call([sys.executable, "-m", "pip", "install", "Cython"])
 import pkg_resources
 from setuptools import setup, Extension, find_packages
 from Cython.Build import build_ext, cythonize
